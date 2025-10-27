@@ -1,7 +1,7 @@
+
 from typing import Any, Dict, Tuple, List, Optional
 import httpx
-#from mcp.server.fastmcp import FastMCP
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
 import os
 import json
 import uuid
@@ -170,4 +170,4 @@ async def run_cortex_agents(query: str) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-       mcp.run(transport="http", host="0.0.0.0", port=8000)
+    mcp.run(transport='stdio')
