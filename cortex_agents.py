@@ -8,8 +8,13 @@ from dotenv import load_dotenv, find_dotenv
 import asyncio
 load_dotenv(find_dotenv())
 
-# Initialize FastMCP server
-#mcp = FastMCP("cortex_agent")
+ from fastmcp import FastMCP
+ mcp = FastMCP("cortex_agent")
+
+
+ @mcp.tool()
+ async def run_cortex_agents(query: str) -> Dict[str, Any]:
+
 
 # Constants
 SEMANTIC_MODEL_FILE = os.getenv("SEMANTIC_MODEL_FILE")
@@ -168,5 +173,7 @@ async def run_cortex_agents(query: str) -> Dict[str, Any]:
     }
 
 
-if __name__ == "__main__":
-    mcp.run(transport='stdio')
+
+ if __name__ == "__main__":
+     mcp.run(transport="http", host="0.0.0.0", port=8000)
+
