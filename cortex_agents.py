@@ -1,7 +1,7 @@
 
 from typing import Any, Dict, Tuple, List, Optional
 import httpx
-from mcp.server.fastmcp import FastMCP
+
 import os
 import json
 import uuid
@@ -10,7 +10,7 @@ import asyncio
 load_dotenv(find_dotenv())
 
 # Initialize FastMCP server
-mcp = FastMCP("cortex_agent")
+#mcp = FastMCP("cortex_agent")
 
 # Constants
 SEMANTIC_MODEL_FILE = os.getenv("SEMANTIC_MODEL_FILE")
