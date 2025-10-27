@@ -1,6 +1,6 @@
 from typing import Any, Dict, Tuple, List, Optional
 import httpx
-from mcp.server.fastmcp import FastMCP
+#from mcp.server.fastmcp import FastMCP
 import os
 import json
 import uuid
@@ -9,8 +9,8 @@ import asyncio
 load_dotenv(find_dotenv())
 
 # Initialize FastMCP server
-mcp = FastMCP("cortex_agent")
-
+#mcp = FastMCP("cortex_agent")
+async def run_cortex_agents(query: str) -> Dict[str, Any]:
 # Constants
 SEMANTIC_MODEL_FILE = os.getenv("SEMANTIC_MODEL_FILE")
 CORTEX_SEARCH_SERVICE = os.getenv("CORTEX_SEARCH_SERVICE")
@@ -111,7 +111,7 @@ async def execute_sql(sql: str) -> Dict[str, Any]:
 import uuid
 import httpx
 
-@mcp.tool()
+#@mcp.tool()
 async def run_cortex_agents(query: str) -> Dict[str, Any]:
     """Run the Cortex agent with the given query, streaming SSE."""
     # Build your payload exactly as before
