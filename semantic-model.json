@@ -1,0 +1,935 @@
+{
+  "name": "JLRDFANALYST",
+  "tables": [
+    {
+      "name": "ACTION",
+      "description": "This table stores information about specific actions taken within a use case, including a unique identifier, a reference to the use case it belongs to, a description of the action, and the expected outcome of the action.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "ACTION"
+      },
+      "dimensions": [
+        {
+          "name": "ACTION_DESCRIPTION",
+          "description": "This column contains a brief description of the specific actions or tasks to be taken, such as developing a machine learning model, deploying a route optimization model, or using model output to trigger retention campaigns.",
+          "expr": "ACTION_DESCRIPTION",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Use model output to trigger retention campaigns.",
+            "Develop ML model to predict vehicle disposal date and integrate into dashboard.",
+            "Deploy route optimization model in worker handheld devices."
+          ]
+        },
+        {
+          "name": "ACTION_ID",
+          "description": "Unique identifier for each action taken within the system.",
+          "expr": "ACTION_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "name": "EXPECTED_OUTCOME",
+          "description": "The EXPECTED_OUTCOME column represents the desired business outcome or benefit that is anticipated to be achieved through a specific action or initiative, such as improving operational efficiency, enhancing customer experience, or increasing revenue.",
+          "expr": "EXPECTED_OUTCOME",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Enable proactive fleet renewal planning",
+            "Shorter picking routes and higher throughput",
+            "Reduce churn by targeting at-risk customers."
+          ]
+        },
+        {
+          "name": "USE_CASE_ID",
+          "description": "Unique identifier for a specific use case or business scenario that the action is associated with.",
+          "expr": "USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "primary_key": {
+        "columns": [
+          "ACTION_ID"
+        ]
+      }
+    },
+    {
+      "name": "CONTEXTANSWER",
+      "description": "This table stores answers to specific questions within a particular use case or category, along with the corresponding evidence or reference, allowing for the tracking and management of contextual answers.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "CONTEXTANSWER"
+      },
+      "dimensions": [
+        {
+          "name": "ANSWER_ID",
+          "description": "Unique identifier for each answer in the context.",
+          "expr": "ANSWER_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "name": "ANSWER_TEXT",
+          "description": "This column stores the text of answers provided in response to questions or prompts, offering insights and information on various topics related to fleet operations and management.",
+          "expr": "ANSWER_TEXT",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "FleetOps DB and Telematics API.",
+            "Fleet managers and procurement team.",
+            "Prototype model built; validation underway."
+          ]
+        },
+        {
+          "name": "CATEGORY",
+          "description": "The CATEGORY column represents the high-level theme or topic that the answer belongs to, which can be one of the following: Progress (related to the company's advancements or achievements), Technology (related to the company's products, services, or innovations), or Customer (related to the company's customers, their needs, or their interactions with the company).",
+          "expr": "CATEGORY",
+          "data_type": "VARCHAR(100)",
+          "sample_values": [
+            "Progress",
+            "Technology",
+            "Customer"
+          ]
+        },
+        {
+          "name": "EVIDENCE_URI",
+          "description": "The Uniform Resource Identifier (URI) of the evidence that supports the answer.",
+          "expr": "EVIDENCE_URI",
+          "data_type": "VARCHAR(16777216)"
+        },
+        {
+          "name": "QUESTION_TEXT",
+          "description": "This column stores the text of a question related to a specific use case, providing context for the corresponding answer.",
+          "expr": "QUESTION_TEXT",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Who benefits from this use case?",
+            "What type of data?",
+            "What systems provide data?"
+          ]
+        },
+        {
+          "name": "USE_CASE_ID",
+          "description": "Unique identifier for a specific use case or scenario that the answer is associated with.",
+          "expr": "USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "primary_key": {
+        "columns": [
+          "ANSWER_ID"
+        ]
+      }
+    },
+    {
+      "name": "DATA_DICTIONARY",
+      "description": "This table stores metadata about data fields used in various business use cases, including field names, data types, constraints, business definitions, priorities, example values, and comments.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "DATA_DICTIONARY"
+      },
+      "dimensions": [
+        {
+          "name": "BUSINESS_DEFINITION",
+          "description": "This column stores various business-related definitions for a vehicle, including the date of its last maintenance service, its unique storage bin location, and the total distance it has traveled.",
+          "expr": "BUSINESS_DEFINITION",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Last maintenance service date",
+            "Unique storage bin location",
+            "Total kilometers driven by vehicle"
+          ]
+        },
+        {
+          "name": "COMMENTS",
+          "description": "This column contains notes or explanations related to the data, including information about wear analysis, route mapping, and the source of the data, which is the Fleet Operations database.",
+          "expr": "COMMENTS",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Used for wear analysis",
+            "Key for route mapping",
+            "Source: FleetOps DB"
+          ]
+        },
+        {
+          "name": "CONSTRAINT_DESC",
+          "description": "A brief description of the constraint, providing context and explanation of the constraint's purpose and rules.",
+          "expr": "CONSTRAINT_DESC",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "NOT NULL"
+          ]
+        },
+        {
+          "name": "DATA_TYPE",
+          "description": "The type of data stored in a column, such as true/false, numerical values, or calendar dates.",
+          "expr": "DATA_TYPE",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "boolean",
+            "numeric",
+            "date"
+          ]
+        },
+        {
+          "name": "EXAMPLE_VALUES",
+          "description": "This column stores example values for a specific dimension, which may include dates, codes, or identifiers, providing a sample representation of the data that can be used for reference or testing purposes.",
+          "expr": "EXAMPLE_VALUES",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "12/09/2024",
+            "A3-14",
+            "124567"
+          ]
+        },
+        {
+          "name": "FIELD_NAME",
+          "description": "The FIELD_NAME column contains the names of the fields or attributes used to describe the data in the table, including location identifiers, dates of service, and vehicle mileage.",
+          "expr": "FIELD_NAME",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "location_id",
+            "service_date",
+            "mileage"
+          ]
+        },
+        {
+          "name": "PRIORITY",
+          "description": "Indicates the level of importance or urgency assigned to a task or request, with \"high\" indicating that it should be addressed promptly.",
+          "expr": "PRIORITY",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "high"
+          ]
+        },
+        {
+          "name": "USE_CASE_ID",
+          "description": "Unique identifier for a specific business use case or scenario.",
+          "expr": "USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DATA_REQUIREMENT",
+      "description": "This table appears to store data requirements for a specific business process or system. It captures a unique identifier (C1), followed by seven descriptive fields (C2-C8) that likely represent different aspects or attributes of the data requirement, and finally a corresponding numerical value or code (C9) associated with each requirement.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "DATA_REQUIREMENT"
+      },
+      "dimensions": [
+        {
+          "name": "C1",
+          "description": "This column, C1, appears to represent a categorical or discrete value, with possible values of 1, 2, or 3, indicating a specific fact or attribute that is being tracked or measured.",
+          "expr": "C1",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "name": "C2",
+          "description": "System or application that is the source of the data.",
+          "expr": "C2",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "FleetOps DB",
+            "WMS System",
+            "Telematics API"
+          ]
+        },
+        {
+          "name": "C3",
+          "description": "This column appears to be a catch-all field containing various data points related to vehicle maintenance and logistics, including vehicle identification, mileage, service history, repair costs, order details, location information, item details, and GPS tracking data.",
+          "expr": "C3",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "vehicle_id, mileage, service_date, repair_cost",
+            "order_id, location_id, item_weight, pick_time",
+            "gps_distance, engine_hours, fuel_consumption"
+          ]
+        },
+        {
+          "name": "C4",
+          "description": "This column indicates whether the data requirement is unstructured, meaning it does not have a predefined format or organization, or structured, meaning it has a predefined format or organization.",
+          "expr": "C4",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "unstructured",
+            "structured"
+          ]
+        },
+        {
+          "name": "C5",
+          "description": "Data Sensitivity Classification: This column indicates the level of sensitivity of the data, with possible values being non-PII (non-personally identifiable information), PII (personally identifiable information), and confidential, to help determine the level of protection and access control required for the data.",
+          "expr": "C5",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "non-PII",
+            "PII",
+            "confidential"
+          ]
+        },
+        {
+          "name": "C6",
+          "description": "Frequency at which data is required to be updated or refreshed.",
+          "expr": "C6",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "real-time",
+            "daily",
+            "weekly"
+          ]
+        },
+        {
+          "name": "C7",
+          "description": "This column captures the specific requirements for accessing or integrating with the data, such as the need for secure tokens or the method of data transfer.",
+          "expr": "C7",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Integrate via REST API",
+            "Requires secure token",
+            "ETL into Data Lake"
+          ]
+        },
+        {
+          "name": "C8",
+          "description": "This column captures the various data inconsistencies and gaps that need to be addressed in order to ensure data quality and integrity, such as inconsistent units of measurement, varying time zones, and missing data points.",
+          "expr": "C8",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Inconsistent mileage units",
+            "Different time zones in timestamps",
+            "Missing data on weekends"
+          ]
+        },
+        {
+          "name": "C9",
+          "description": "Number of dependents",
+          "expr": "C9",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FEASIBILITY_ASSESSMENT",
+      "description": "This table appears to store the results of a feasibility assessment, likely for a project or initiative. The 11 columns (C1-C11) may represent different criteria or factors being evaluated, such as technical feasibility, financial viability, regulatory compliance, market demand, and operational feasibility, among others. The table is designed to capture a large amount of text data for each criterion, suggesting that the assessment may involve detailed narratives or justifications for each factor.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "FEASIBILITY_ASSESSMENT"
+      },
+      "dimensions": [
+        {
+          "name": "C1",
+          "description": "Unique identifier for a specific use case being assessed for feasibility.",
+          "expr": "C1",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "use_case_id",
+            "2",
+            "1"
+          ]
+        },
+        {
+          "name": "C10",
+          "description": "Assessment of the potential business impact of a project or initiative, with a value estimate of High indicating significant potential annual savings of approximately $1.2 million.",
+          "expr": "C10",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "value_estimate",
+            "High",
+            "High business impact (~$1.2M annual savings)"
+          ]
+        },
+        {
+          "name": "C11",
+          "description": "Unique identifier for the assessment.",
+          "expr": "C11",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "ASSESSMENT_ID",
+            "2",
+            "1"
+          ]
+        },
+        {
+          "name": "C2",
+          "description": "This column captures the specific success metrics or key performance indicators (KPIs) that are used to measure the effectiveness of a feasibility assessment, such as reducing average route time or achieving a certain level of accuracy in disposal prediction models.",
+          "expr": "C2",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "success_metrics",
+            "Reduce average route time by 15%",
+            "MAE < 10% on disposal prediction model"
+          ]
+        },
+        {
+          "name": "C3",
+          "description": "This column captures the various risks and challenges associated with the feasibility assessment, including the reliability and quality of telematics data, the dependence on maintenance logs, and the overall risks related to IoT data.",
+          "expr": "C3",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Telematics data quality risk; dependency on maintenance logs",
+            "IoT data reliability",
+            "risks"
+          ]
+        },
+        {
+          "name": "C4",
+          "description": "Identifies the specific challenges or limitations that may impact the feasibility of a project or initiative.",
+          "expr": "C4",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "issues",
+            "Limited historical repair data",
+            "Integration with legacy WMS"
+          ]
+        },
+        {
+          "name": "C5",
+          "description": "This column captures the assumptions made during the feasibility assessment process, outlining the conditions or circumstances that are taken for granted or considered true in order to evaluate the viability of a project or initiative.",
+          "expr": "C5",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Assume accurate service entries",
+            "assumptions",
+            "Assume consistent WiFi coverage"
+          ]
+        },
+        {
+          "name": "C6",
+          "description": "This column captures the dependencies or conditions that need to be met for a particular feasibility assessment to be successful, highlighting any external factors that may impact its viability.",
+          "expr": "C6",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "dependencies",
+            "Dependent on IoT network availability",
+            "Depends on FleetOps DB API uptime"
+          ]
+        },
+        {
+          "name": "C7",
+          "description": "This column captures the feasibility assessment of a project or initiative from a data privacy and ethics perspective, indicating whether there are any concerns or requirements related to privacy, worker consent, or the use of personally identifiable information (PII).",
+          "expr": "C7",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "No privacy risk; worker consent needed for tracking",
+            "ethical_considerations",
+            "No PII used"
+          ]
+        },
+        {
+          "name": "C8",
+          "description": "This column captures the feasibility assessment of various factors that impact the implementation of a project or initiative, specifically focusing on legal and regulatory considerations, compliance with company policies, and adherence to data protection regulations such as GDPR.",
+          "expr": "C8",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "legal_considerations",
+            "Compliant under company retention policy",
+            "GDPR compliance for location data"
+          ]
+        },
+        {
+          "name": "C9",
+          "description": "Assessment of the feasibility of a project or initiative, categorized as Medium data preparation, Low model complexity, or High effort estimate.",
+          "expr": "C9",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Medium data prep; Low model complexity",
+            "effort_estimate",
+            "High"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ITERATION",
+      "description": "This table stores information about iterations of a use case, which is a specific scenario or workflow in a business process. Each iteration represents a cycle of testing and refinement, with the goal of achieving a specific outcome or hypothesis. The table captures key details about each iteration, including the use case it belongs to, the iteration number, the hypothesis being tested, the criteria for success and testing, the results of the iteration, and the start and completion dates.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "ITERATION"
+      },
+      "dimensions": [
+        {
+          "name": "HYPOTHESIS",
+          "description": "This column captures the specific assumptions or predictions made about the potential outcomes of implementing different features or changes, such as the impact on recall, travel time, or prediction accuracy.",
+          "expr": "HYPOTHESIS",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "If sentiment data is added, recall improves by 5%.",
+            "If routes are optimized dynamically, travel time will drop by \u226510%.",
+            "If we include telematics features, prediction accuracy improves by >5%."
+          ]
+        },
+        {
+          "name": "ITERATION_ID",
+          "description": "A unique identifier for a specific iteration or cycle of a process, project, or activity, used to track and distinguish between multiple iterations.",
+          "expr": "ITERATION_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "name": "ITERATION_NUMBER",
+          "description": "A unique identifier for a specific iteration or cycle of a process, project, or experiment, used to track and distinguish between multiple iterations.",
+          "expr": "ITERATION_NUMBER",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1"
+          ]
+        },
+        {
+          "name": "RESULTS",
+          "description": "This column captures the outcome or results of each iteration, providing a brief description of the achievements, improvements, or validation of hypotheses made during the iteration.",
+          "expr": "RESULTS",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Achieved 12% improvement.",
+            "Achieved MAE 9.6%; hypothesis validated.",
+            "Recall improved to 80%."
+          ]
+        },
+        {
+          "name": "SUCCESS_CRITERIA",
+          "description": "The SUCCESS_CRITERIA column defines the conditions that must be met for an iteration to be considered successful, including specific thresholds for Mean Absolute Error (MAE), average route time reduction, and recall rate.",
+          "expr": "SUCCESS_CRITERIA",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "MAE < 12% compared to baseline.",
+            "Average route time reduced vs. baseline.",
+            "Recall \u2265 78%."
+          ]
+        },
+        {
+          "name": "TEST_CRITERIA",
+          "description": "This column captures the different testing scenarios or experiments conducted to evaluate the performance of a model or process, such as comparing the impact of including or excluding specific inputs or features.",
+          "expr": "TEST_CRITERIA",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Compare model with/without telematics inputs.",
+            "A/B test 20 workers vs. control.",
+            "Compare model with/without sentiment input."
+          ]
+        },
+        {
+          "name": "USE_CASE_ID",
+          "description": "Unique identifier for a specific use case or business scenario being iterated upon.",
+          "expr": "USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "time_dimensions": [
+        {
+          "name": "DATE_COMPLETED",
+          "description": "The date on which the iteration was completed.",
+          "expr": "DATE_COMPLETED",
+          "data_type": "DATE"
+        },
+        {
+          "name": "DATE_STARTED",
+          "description": "Date when the iteration started.",
+          "expr": "DATE_STARTED",
+          "data_type": "DATE",
+          "sample_values": [
+            "2025-01-05",
+            "2025-01-09",
+            "2025-01-07"
+          ]
+        }
+      ],
+      "primary_key": {
+        "columns": [
+          "ITERATION_ID"
+        ]
+      }
+    },
+    {
+      "name": "OUTPUTREQUIREMENT",
+      "description": "This table stores the output requirements for a system or application, detailing the specific needs for data output, including the type of output, the system consuming the output, and the frequency at which the output should be refreshed, all linked to a specific use case.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "OUTPUTREQUIREMENT"
+      },
+      "dimensions": [
+        {
+          "name": "CONSUMING_SYSTEM",
+          "description": "The system or application that will be utilizing the output.",
+          "expr": "CONSUMING_SYSTEM",
+          "data_type": "VARCHAR(255)",
+          "sample_values": [
+            "Corporate Data Lake",
+            "WMS Mobile App",
+            "Fleet Management Portal"
+          ]
+        },
+        {
+          "name": "OUTPUT_REQ_ID",
+          "description": "Unique identifier for each output requirement.",
+          "expr": "OUTPUT_REQ_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "name": "OUTPUT_TYPE",
+          "description": "The type of output required, either an Application Programming Interface (API) for integration with other systems or a visual dashboard for human consumption.",
+          "expr": "OUTPUT_TYPE",
+          "data_type": "VARCHAR(100)",
+          "sample_values": [
+            "API",
+            "dashboard"
+          ]
+        },
+        {
+          "name": "REFRESH_FREQUENCY",
+          "description": "The frequency at which the output data is updated or refreshed, indicating how often the data is synchronized with the source system.",
+          "expr": "REFRESH_FREQUENCY",
+          "data_type": "VARCHAR(100)",
+          "sample_values": [
+            "real-time",
+            "daily",
+            "hourly"
+          ]
+        },
+        {
+          "name": "USE_CASE_ID",
+          "description": "Unique identifier for the use case that the output requirement is associated with.",
+          "expr": "USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "primary_key": {
+        "columns": [
+          "OUTPUT_REQ_ID"
+        ]
+      }
+    },
+    {
+      "name": "STAKEHOLDER",
+      "description": "This table stores information about stakeholders involved in a project or initiative, including their unique identifier, the use case they are associated with, their name, role, and contact details.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "STAKEHOLDER"
+      },
+      "dimensions": [
+        {
+          "name": "CONTACT_DETAILS",
+          "description": "Email addresses of stakeholders who have a vested interest in the project or initiative.",
+          "expr": "CONTACT_DETAILS",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "jdavis@nttdata.com",
+            "rkumar@nttdata.com",
+            "ochen@nttdata.com"
+          ]
+        },
+        {
+          "name": "NAME",
+          "description": "The name of the stakeholder, typically an individual who has a vested interest in the project or organization.",
+          "expr": "NAME",
+          "data_type": "VARCHAR(255)",
+          "sample_values": [
+            "Olivia Chen",
+            "Rajesh Kumar",
+            "Maria Lopez"
+          ]
+        },
+        {
+          "name": "ROLE",
+          "description": "The role or position of the stakeholder within the organization, indicating their level of responsibility and involvement in the project or initiative.",
+          "expr": "ROLE",
+          "data_type": "VARCHAR(100)",
+          "sample_values": [
+            "Fleet Manager",
+            "Operations Manager",
+            "Sponsor"
+          ]
+        },
+        {
+          "name": "STAKEHOLDER_ID",
+          "description": "Unique identifier for a stakeholder, which is an individual or organization with a vested interest in the project or business.",
+          "expr": "STAKEHOLDER_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "name": "USE_CASE_ID",
+          "description": "Unique identifier for the use case associated with the stakeholder.",
+          "expr": "USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ],
+      "primary_key": {
+        "columns": [
+          "STAKEHOLDER_ID"
+        ]
+      }
+    },
+    {
+      "name": "USECASE",
+      "description": "This table stores information about use cases, which are descriptions of specific business processes or functionalities. Each use case is uniquely identified by a use case ID and has attributes such as title, description, business goal, business value, and type. The table also tracks the status of the use case, as well as the dates it was created and last updated. Additionally, it allows for the identification of duplicate use cases by referencing the ID of the original use case.",
+      "base_table": {
+        "database": "CORTEX_ANALYST_DEMO5",
+        "schema": "CORTEX_ANA_USECASES2",
+        "table": "USECASE"
+      },
+      "dimensions": [
+        {
+          "name": "BUSINESS_GOAL",
+          "description": "This column represents the high-level objectives that the business is trying to achieve through the use of data and analytics. It categorizes the use cases into distinct business goals, such as improving customer retention, optimizing fleet renewal, or increasing warehouse productivity, to help focus efforts and measure success.",
+          "expr": "BUSINESS_GOAL",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Improve customer retention through proactive engagement.",
+            "Optimize fleet renewal and reduce maintenance costs.",
+            "Increase warehouse throughput and worker productivity."
+          ]
+        },
+        {
+          "name": "BUSINESS_VALUE",
+          "description": "This column captures the expected business benefits or outcomes of implementing a particular use case, such as cost savings, efficiency gains, or revenue growth, expressed in specific percentages or dollar amounts.",
+          "expr": "BUSINESS_VALUE",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Reduce churn by 5% leading to ~$3M annual savings.",
+            "Expected 15% reduction in picking time and 10% labor cost savings.",
+            "Expected 10% reduction in downtime and 8% cost savings."
+          ]
+        },
+        {
+          "name": "DESCRIPTION",
+          "description": "This column contains a list of potential use cases for a business, outlining specific applications of data analysis and artificial intelligence to drive business value.",
+          "expr": "DESCRIPTION",
+          "data_type": "VARCHAR(16777216)",
+          "sample_values": [
+            "Develop ML model to predict which customers are likely to cancel subscriptions.",
+            "Estimate when fleet vehicles will reach disposal age based on usage and maintenance history.",
+            "Use AI to optimize picking routes in large warehouses to reduce travel time."
+          ]
+        },
+        {
+          "name": "STATUS",
+          "description": "The STATUS column represents the current state of a use case, indicating whether it has been qualified for further development (qualified) or is currently being worked on (in_progress).",
+          "expr": "STATUS",
+          "data_type": "VARCHAR(100)",
+          "sample_values": [
+            "qualified",
+            "in_progress"
+          ]
+        },
+        {
+          "name": "TITLE",
+          "description": "This column represents the specific business use case or scenario that a particular analysis or project is intended to address. It categorizes the purpose of the analysis into distinct business applications, such as optimizing warehouse operations, predicting asset disposal, or understanding customer behavior.",
+          "expr": "TITLE",
+          "data_type": "VARCHAR(500)",
+          "sample_values": [
+            "Optimize Warehouse Picking Routes",
+            "Predict Vehicle Disposal Date",
+            "Predict Customer Churn for Subscription Services"
+          ]
+        },
+        {
+          "name": "USE_CASE_ID",
+          "description": "Unique identifier for a specific use case or business scenario.",
+          "expr": "USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "sample_values": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "name": "USE_CASE_TYPE",
+          "description": "The type of use case being implemented, which can be one of the following: optimization (improving a process or outcome), prediction (forecasting a future event or behavior), or anomaly detection (identifying unusual patterns or outliers).",
+          "expr": "USE_CASE_TYPE",
+          "data_type": "VARCHAR(200)",
+          "sample_values": [
+            "optimization",
+            "prediction",
+            "anomaly detection"
+          ]
+        }
+      ],
+      "time_dimensions": [
+        {
+          "name": "DATE_CREATED",
+          "description": "The date and time when the use case was created.",
+          "expr": "DATE_CREATED",
+          "data_type": "DATE"
+        },
+        {
+          "name": "DATE_UPDATED",
+          "description": "The date and time when the use case was last updated.",
+          "expr": "DATE_UPDATED",
+          "data_type": "DATE"
+        }
+      ],
+      "facts": [
+        {
+          "name": "DUPLICATE_OF_USE_CASE_ID",
+          "description": "This column identifies the use case that the current use case is a duplicate of, indicating that the current use case is a redundant or identical version of another use case.",
+          "expr": "DUPLICATE_OF_USE_CASE_ID",
+          "data_type": "NUMBER(38,0)",
+          "access_modifier": "public_access"
+        }
+      ],
+      "primary_key": {
+        "columns": [
+          "USE_CASE_ID"
+        ]
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "name": "YES",
+      "left_table": "ACTION",
+      "right_table": "USECASE",
+      "relationship_columns": [
+        {
+          "left_column": "USE_CASE_ID",
+          "right_column": "USE_CASE_ID"
+        }
+      ]
+    },
+    {
+      "name": "YES3",
+      "left_table": "DATA_DICTIONARY",
+      "right_table": "USECASE",
+      "relationship_columns": [
+        {
+          "left_column": "USE_CASE_ID",
+          "right_column": "USE_CASE_ID"
+        }
+      ]
+    },
+    {
+      "name": "YES4",
+      "left_table": "DATA_DICTIONARY",
+      "right_table": "USECASE",
+      "relationship_columns": [
+        {
+          "left_column": "USE_CASE_ID",
+          "right_column": "USE_CASE_ID"
+        }
+      ]
+    },
+    {
+      "name": "YES2",
+      "left_table": "OUTPUTREQUIREMENT",
+      "right_table": "USECASE",
+      "relationship_columns": [
+        {
+          "left_column": "USE_CASE_ID",
+          "right_column": "USE_CASE_ID"
+        }
+      ]
+    },
+    {
+      "name": "YES6",
+      "left_table": "STAKEHOLDER",
+      "right_table": "USECASE",
+      "relationship_columns": [
+        {
+          "left_column": "USE_CASE_ID",
+          "right_column": "USE_CASE_ID"
+        }
+      ]
+    }
+  ],
+  "verified_queries": [
+    {
+      "name": "which usecase john did ?",
+      "question": "which usecase john did ?",
+      "sql": "SELECT\n  DISTINCT u.use_case_id,\n  u.title\nFROM\n  usecase AS u\n  INNER JOIN stakeholder AS s ON u.use_case_id = s.use_case_id\nWHERE\n  LOWER(s.name) LIKE '%john%'\nORDER BY\n  u.use_case_id DESC NULLS LAST",
+      "use_as_onboarding_question": true,
+      "verified_by": "Arta James",
+      "verified_at": 1761401594
+    },
+    {
+      "name": "how many usecase are there ?",
+      "question": "how many usecase are there ?",
+      "sql": "SELECT\n  COUNT(use_case_id) AS total_usecases\nFROM\n  usecase",
+      "use_as_onboarding_question": true,
+      "verified_by": "Arta James",
+      "verified_at": 1761401620
+    },
+    {
+      "name": "how many usecase have a daily frequency ?",
+      "question": "how many usecase have a daily frequency ?",
+      "sql": "SELECT\n  COUNT(DISTINCT u.use_case_id) AS num_daily_usecases\nFROM\n  usecase AS u\n  INNER JOIN outputrequirement AS o ON u.use_case_id = o.use_case_id\nWHERE\n  LOWER(o.refresh_frequency) = 'daily'",
+      "use_as_onboarding_question": true,
+      "verified_by": "Arta James",
+      "verified_at": 1761401659
+    },
+    {
+      "name": "which usecase have high priority ?",
+      "question": "which usecase have high priority ?",
+      "sql": "SELECT\n  DISTINCT u.use_case_id,\n  u.title\nFROM\n  usecase AS u\n  LEFT OUTER JOIN data_dictionary AS d ON u.use_case_id = d.use_case_id\nWHERE\n  LOWER(d.priority) = 'high'\nORDER BY\n  u.use_case_id DESC NULLS LAST",
+      "use_as_onboarding_question": false,
+      "verified_by": "Arta James",
+      "verified_at": 1761401692
+    }
+  ]
+}
