@@ -1,5 +1,5 @@
 httpx
 python-dotenv
 mcp[cli]
-
+fastmcp
 mcp
