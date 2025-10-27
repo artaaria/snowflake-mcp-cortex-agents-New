@@ -6,11 +6,9 @@ import uuid
 from dotenv import load_dotenv, find_dotenv
 import asyncio
 load_dotenv(find_dotenv())
+
 from fastmcp import FastMCP
 mcp = FastMCP("cortex_agent")
-@mcp.tool()
-async def run_cortex_agents(query: str) -> Dict[str, Any]:
-
 
 # Constants
 SEMANTIC_MODEL_FILE = os.getenv("SEMANTIC_MODEL_FILE")
@@ -31,16 +29,11 @@ API_HEADERS = {
 }
 
 async def process_sse_response(resp: httpx.Response) -> Tuple[str, str, List[Dict]]:
-    """
-    Process SSE stream lines, extracting any 'delta' payloads,
-    regardless of whether the JSON contains an 'event' field.
-    """
     text, sql, citations = "", "", []
     async for raw_line in resp.aiter_lines():
         if not raw_line:
             continue
         raw_line = raw_line.strip()
-        # only handle data lines
         if not raw_line.startswith("data:"):
             continue
         payload = raw_line[len("data:") :].strip()
@@ -50,7 +43,6 @@ async def process_sse_response(resp: httpx.Response) -> Tuple[str, str, List[Dic
             evt = json.loads(payload)
         except json.JSONDecodeError:
             continue
-        # Grab the 'delta' section, whether top-level or nested in 'data'
         delta = evt.get("delta") or evt.get("data", {}).get("delta")
         if not isinstance(delta, dict):
             continue
@@ -63,10 +55,8 @@ async def process_sse_response(resp: httpx.Response) -> Tuple[str, str, List[Dic
                     if result.get("type") == "json":
                         j = result["json"]
                         text += j.get("text", "")
-                        # capture SQL if present
                         if "sql" in j:
                             sql = j["sql"]
-                        # capture any citations
                         for s in j.get("searchResults", []):
                             citations.append({
                                 "source_id": s.get("source_id"),
@@ -75,25 +65,13 @@ async def process_sse_response(resp: httpx.Response) -> Tuple[str, str, List[Dic
     return text, sql, citations
 
 async def execute_sql(sql: str) -> Dict[str, Any]:
-    """Execute SQL using the Snowflake SQL API.
-    
-    Args:
-        sql: The SQL query to execute
-        
-    Returns:
-        Dict containing either the query results or an error message
-    """
     try:
-        # Generate a unique request ID
         request_id = str(uuid.uuid4())
-        
-        # Prepare the SQL API request
         sql_api_url = f"{SNOWFLAKE_ACCOUNT_URL}/api/v2/statements"
         sql_payload = {
             "statement": sql.replace(";", ""),
-            "timeout": 60  # 60 second timeout
+            "timeout": 60
         }
-        
         async with httpx.AsyncClient() as client:
             sql_response = await client.post(
                 sql_api_url,
@@ -101,7 +79,6 @@ async def execute_sql(sql: str) -> Dict[str, Any]:
                 headers=API_HEADERS,
                 params={"requestId": request_id}
             )
-            
             if sql_response.status_code == 200:
                 return sql_response.json()
             else:
@@ -109,21 +86,16 @@ async def execute_sql(sql: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": f"SQL execution error: {e}"}
 
-import uuid
-import httpx
-
 @mcp.tool()
 async def run_cortex_agents(query: str) -> Dict[str, Any]:
-    """Run the Cortex agent with the given query, streaming SSE."""
-    # Build your payload exactly as before
     payload = {
         "model": "claude-3-5-sonnet",
         "response_instruction": "You are a helpful AI assistant.",
         "experimental": {},
         "tools": [
             {"tool_spec": {"type": "cortex_analyst_text_to_sql", "name": "Analyst1"}},
-            {"tool_spec": {"type": "cortex_search",            "name": "Search1"}},
-            {"tool_spec": {"type": "sql_exec",                "name": "sql_execution_tool"}},
+            {"tool_spec": {"type": "cortex_search", "name": "Search1"}},
+            {"tool_spec": {"type": "sql_exec", "name": "sql_execution_tool"}},
         ],
         "tool_resources": {
             "Analyst1": {"semantic_model_file": SEMANTIC_MODEL_FILE},
@@ -134,33 +106,23 @@ async def run_cortex_agents(query: str) -> Dict[str, Any]:
             {"role": "user", "content": [{"type": "text", "text": query}]}
         ],
     }
-
-    # (Optional) generate a request ID if you want traceability
     request_id = str(uuid.uuid4())
-
     url = f"{SNOWFLAKE_ACCOUNT_URL}/api/v2/cortex/agent:run"
-    # Copy your API headers and add the SSE Accept
     headers = {
         **API_HEADERS,
         "Accept": "text/event-stream",
     }
-
-    # 1) Open a streaming POST
     async with httpx.AsyncClient(timeout=60.0) as client:
         async with client.stream(
             "POST",
             url,
             json=payload,
             headers=headers,
-            params={"requestId": request_id},   # SQL API needs this, Cortex agent may ignore it
+            params={"requestId": request_id},
         ) as resp:
             resp.raise_for_status()
-            # 2) Now resp.aiter_lines() will yield each "data: …" chunk
             text, sql, citations = await process_sse_response(resp)
-
-    # 3) If SQL was generated, execute it
     results = await execute_sql(sql) if sql else None
-
     return {
         "text": text,
         "citations": citations,
@@ -168,7 +130,5 @@ async def run_cortex_agents(query: str) -> Dict[str, Any]:
         "results": results,
     }
 
-
 if __name__ == "__main__":
     mcp.run(transport="http", host="0.0.0.0", port=8000)
-
