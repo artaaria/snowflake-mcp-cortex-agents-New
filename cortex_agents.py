@@ -10,7 +10,7 @@ load_dotenv(find_dotenv())
 
 # Initialize FastMCP server
 #mcp = FastMCP("cortex_agent")
-async def run_cortex_agents(query: str) -> Dict[str, Any]:
+
 # Constants
 SEMANTIC_MODEL_FILE = os.getenv("SEMANTIC_MODEL_FILE")
 CORTEX_SEARCH_SERVICE = os.getenv("CORTEX_SEARCH_SERVICE")
