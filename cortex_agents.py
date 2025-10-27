@@ -1,4 +1,3 @@
-
 from typing import Any, Dict, Tuple, List, Optional
 import httpx
 import os
@@ -7,13 +6,10 @@ import uuid
 from dotenv import load_dotenv, find_dotenv
 import asyncio
 load_dotenv(find_dotenv())
-
- from fastmcp import FastMCP
- mcp = FastMCP("cortex_agent")
-
-
- @mcp.tool()
- async def run_cortex_agents(query: str) -> Dict[str, Any]:
+from fastmcp import FastMCP
+mcp = FastMCP("cortex_agent")
+@mcp.tool()
+async def run_cortex_agents(query: str) -> Dict[str, Any]:
 
 
 # Constants
@@ -173,7 +169,6 @@ async def run_cortex_agents(query: str) -> Dict[str, Any]:
     }
 
 
-
- if __name__ == "__main__":
-     mcp.run(transport="http", host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+mcp.run(transport="http", host="0.0.0.0", port=8000)
 
