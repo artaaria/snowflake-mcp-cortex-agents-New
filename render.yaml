@@ -1,9 +1,21 @@
 services:
   - type: web
-    name: mcp-streamlit-server
+    name: snowflake-mcp-streamlit
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
     envVars:
+      - key: SNOWFLAKE_USER
+        value: your_user
+      - key: SNOWFLAKE_PASSWORD
+        value: your_password
+      - key: SNOWFLAKE_ACCOUNT
+        value: your_account
+      - key: SNOWFLAKE_DATABASE
+        value: your_database
+      - key: SNOWFLAKE_SCHEMA
+        value: your_schema
+      - key: SNOWFLAKE_WAREHOUSE
+        value: your_warehouse
       - key: MISTRAL_API_KEY
         value: UtJt7V0in6nZofPtgSWXwXLnmzLZNbyA
