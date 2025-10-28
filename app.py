@@ -4,9 +4,17 @@ from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
 from mistralai.client import MistralClient
 
+from fastmcp import FastMCP
+
+
+
 load_dotenv()
 mcp.run(transport="http", host="0.0.0.0", port=8000)
+# Initialize MCP
+mcp = FastMCP()
 
+# Start MCP server
+mcp.run(transport="http"
 # Initialize Mistral
 mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
 
