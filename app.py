@@ -94,12 +94,12 @@ if query:
     st.write(response)
 
 # --- Optional: Run a Snowflake query ---
-try:
-    conn = get_snowflake_conn()
-    cursor = conn.cursor()
-    cursor.execute("SELECT CURRENT_DATE;")
-    result = cursor.fetchone()
-    st.markdown("**Snowflake Current Date:**")
-    st.write(result[0])
-except Exception as e:
-    st.error(f"Snowflake connection error: {e}")
+#try:
+#    conn = get_snowflake_conn()
+ #   cursor = conn.cursor()
+  #  cursor.execute("SELECT CURRENT_DATE;")
+   # result = cursor.fetchone()
+   # st.markdown("**Snowflake Current Date:**")
+    #st.write(result[0])
+#except Exception as e:
+   # st.error(f"Snowflake connection error: {e}")
