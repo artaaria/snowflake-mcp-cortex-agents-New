@@ -3,6 +3,9 @@ import snowflake.connector
 import requests
 import os
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Snowflake connection
 conn = snowflake.connector.connect(
     user=os.getenv("SNOWFLAKE_USER"),
