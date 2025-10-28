@@ -8,7 +8,7 @@ load_dotenv()
 
 st.write("Snowflake Account:", os.getenv("SNOWFLAKE_ACCOUNT"))
 st.write("User:", os.getenv("SNOWFLAKE_USER"))
-st.write("Warehouse:", os.getenv("SNOWFLAKE_WAREHOUSE")
+st.write("Warehouse:", os.getenv("SNOWFLAKE_WAREHOUSE"))
 
 # Snowflake connection
 conn = snowflake.connector.connect(
