@@ -8,3 +8,4 @@ snowflake-connector-python
 pandas
 requests
 python-dotenv
+mistralai
