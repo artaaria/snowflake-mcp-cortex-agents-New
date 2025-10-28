@@ -3,3 +3,8 @@ python-dotenv
 mcp[cli]
 fastmcp
 mcp
+streamlit==1.28.0
+snowflake-connector-python
+pandas
+requests
+python-dotenv
