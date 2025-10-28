@@ -5,7 +5,7 @@ from mcp.server.fastmcp import FastMCP
 from mistralai.client import MistralClient
 
 load_dotenv()
-mcp = FastMCP("cortex_agent")
+mcp.run(transport="http", host="0.0.0.0", port=8000)
 
 # Initialize Mistral
 mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
