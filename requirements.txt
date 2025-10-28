@@ -8,4 +8,4 @@ snowflake-connector-python
 pandas
 requests
 python-dotenv
-mistralai
+mistralai==0.4.2
