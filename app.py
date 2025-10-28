@@ -27,6 +27,8 @@ if missing:
 # --- Snowflake connection (cached) ---
 @st.cache_resource(show_spinner=False)
 def get_snowflake_conn():
+@st.cache_resource(show_spinner=False)
+def get_snowflake_conn():
     auth = os.getenv("SNOWFLAKE_AUTHENTICATOR", "oauth").lower()
     common = dict(
         account=os.getenv("SNOWFLAKE_ACCOUNT"),
@@ -34,23 +36,29 @@ def get_snowflake_conn():
         database=os.getenv("SNOWFLAKE_DATABASE"),
         schema=os.getenv("SNOWFLAKE_SCHEMA"),
     )
+
     if auth == "oauth":
         token = os.getenv("SNOWFLAKE_OAUTH_TOKEN")
         if not token:
             raise RuntimeError("SNOWFLAKE_OAUTH_TOKEN is not set for oauth authenticator.")
         return snowflake.connector.connect(authenticator="oauth", token=token, **common)
+
     elif auth == "externalbrowser":
         return snowflake.connector.connect(
             authenticator="externalbrowser",
             user=os.getenv("SNOWFLAKE_USER"),
             **common
         )
-    else:
+
+    elif auth == "username_password":
         return snowflake.connector.connect(
             user=os.getenv("SNOWFLAKE_USER"),
             password=os.getenv("SNOWFLAKE_PASSWORD"),
             **common
         )
+
+    else:
+        raise ValueError(f"Unsupported SNOWFLAKE_AUTHENTICATOR: {auth}")
 
 # --- Mistral API call ---
 def query_mistral(prompt: str) -> str:
