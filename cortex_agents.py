@@ -8,7 +8,7 @@ load_dotenv()
 mcp = FastMCP("cortex_agent")
 
 # Initialize Mistral
-mistral_client = MistralClient(api_key=os.getenv("UtJt7V0in6nZofPtgSWXwXLnmzLZNbyA"))
+mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
 
 # Snowflake constants
 SNOWFLAKE_ACCOUNT_URL = os.getenv("SNOWFLAKE_ACCOUNT_URL")
