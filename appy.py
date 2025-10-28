@@ -1,8 +1,9 @@
-from typing import Any, Dict, Tuple, List
-import httpx, os, json, uuid, asyncio
+import os
+import streamlit as st
 from dotenv import load_dotenv
-from mcp.server.fastmcp import FastMCP
-from mistralai.client import MistralClient
+import snowflake.connector
+import requests
+
 
 load_dotenv()
 mcp = FastMCP("cortex_agent")
@@ -50,3 +51,47 @@ async def run_cortex_agents(query: str) -> dict:
 
 if __name__ == "__main__":
     mcp.run(transport="http", host="0.0.0.0", port=8000)
+    
+# --- Mistral API call ---
+def query_mistral(prompt: str) -> str:
+    api_key = os.getenv("MISTRAL_API_KEY")
+    if not api_key:
+        raise RuntimeError("MISTRAL_API_KEY missing.")
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": os.getenv("MISTRAL_MODEL", "mistral-7b-instruct"),
+        "messages": [{"role": "user", "content": prompt}],
+    }
+    try:
+        resp = requests.post(
+            "https://api.mistral.ai/v1/chat/completions",
+            json=payload,
+            headers=headers,
+            timeout=30,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        return data["choices"][0]["message"]["content"]
+    except Exception as e:
+        return f"[Mistral error] {e}"
+
+# --- UI: Ask Mistral ---
+query = st.text_input("Ask Mistral something:")
+if query:
+    response = query_mistral(query)
+    st.markdown("**Mistral Response:**")
+    st.write(response)
+
+# --- Optional: Run a Snowflake query ---
+#try:
+#    conn = get_snowflake_conn()
+ #   cursor = conn.cursor()
+  #  cursor.execute("SELECT CURRENT_DATE;")
+   # result = cursor.fetchone()
+   # st.markdown("**Snowflake Current Date:**")
+    #st.write(result[0])
+#except Exception as e:
+   # st.error(f"Snowflake connection error: {e}")
