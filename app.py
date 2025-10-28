@@ -27,8 +27,8 @@ if missing:
 # --- Snowflake connection (cached) ---
 @st.cache_resource(show_spinner=False)
 def get_snowflake_conn():
-@st.cache_resource(show_spinner=False)
-def get_snowflake_conn():
+ @st.cache_resource(show_spinner=False)
+ def get_snowflake_conn():
     auth = os.getenv("SNOWFLAKE_AUTHENTICATOR", "oauth").lower()
     common = dict(
         account=os.getenv("SNOWFLAKE_ACCOUNT"),
