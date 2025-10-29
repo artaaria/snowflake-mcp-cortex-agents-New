@@ -8,6 +8,9 @@ from fastmcp import FastMCP
 from mistralai.client import MistralClient
 import os
 import snowflake.connector
+from fastapi import FastAPI
+app = FastAPI()
+
 # ✅ Load environment variables
 load_dotenv()
 
@@ -41,6 +44,12 @@ API_HEADERS = {
     "X-Snowflake-Authorization-Token-Type": "PROGRAMMATIC_ACCESS_TOKEN",
     "Content-Type": "application/json",
 }
+
+
+@app.get("/check-snowflake")
+def check_snowflake():
+    result = test_connection()
+    return {"status": "connected", "timestamp": result}
 
 # ✅ Tool: Ask Mistral LLM
 @mcp.tool()
