@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: snowflake-mcp-streamlit
+    name: snowflake-mcp
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: SNOWFLAKE_USER
         value: your_user
