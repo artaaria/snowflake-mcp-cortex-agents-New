@@ -23,10 +23,14 @@ def test_connection():
         database=os.getenv("SNOWFLAKE_DATABASE"),
         schema=os.getenv("SNOWFLAKE_SCHEMA")
     )
+    
+@app.get("/run-query")
+def run_query(sql: str):
+    conn = snowflake.connector.connect(...)
     cursor = conn.cursor()
-    cursor.execute("SELECT CURRENT_TIMESTAMP;")
-    return cursor.fetchone()
-
+    cursor.execute(sql)
+    return {"data": cursor.fetchall()}
+ 
 # ✅ Endpoint: Check Snowflake connectivity
 @app.get("/check-snowflake")
 def check_snowflake():
