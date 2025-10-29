@@ -6,10 +6,11 @@ from mistralai.client import MistralClient
 import os
 # Load environment variables
 load_dotenv()
-
 # Initialize MCP
 mcp = FastMCP()
-mcp.run(transport="http", port=int(os.getenv("PORT", 8000)))
+port = int(os.getenv("PORT", 8000))
+mcp.run(transport="http", port=port)
+
 # Initialize Mistral client
 mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
 
