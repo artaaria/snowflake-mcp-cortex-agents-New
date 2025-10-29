@@ -3,13 +3,13 @@ import httpx, os, json, uuid, asyncio
 from dotenv import load_dotenv
 from fastmcp import FastMCP
 from mistralai.client import MistralClient
-
+import os
 # Load environment variables
 load_dotenv()
 
 # Initialize MCP
 mcp = FastMCP()
-
+mcp.run(transport="http", port=int(os.getenv("PORT", 8000)))
 # Initialize Mistral client
 mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
 
