@@ -6,7 +6,8 @@ import asyncio
 from dotenv import load_dotenv
 from fastmcp import FastMCP
 from mistralai.client import MistralClient
-
+import os
+import snowflake.connector
 # ✅ Load environment variables
 load_dotenv()
 
@@ -20,6 +21,20 @@ mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
 # ✅ Snowflake API constants
 SNOWFLAKE_ACCOUNT_URL = os.getenv("SNOWFLAKE_ACCOUNT_URL")
 SNOWFLAKE_PAT = os.getenv("SNOWFLAKE_PAT")
+
+
+def test_connection():
+    conn = snowflake.connector.connect(
+        user=os.getenv("SNOWFLAKE_USER"),
+        password=os.getenv("SNOWFLAKE_PASSWORD"),
+        account=os.getenv("SNOWFLAKE_ACCOUNT"),
+        warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
+        database=os.getenv("SNOWFLAKE_DATABASE"),
+        schema=os.getenv("SNOWFLAKE_SCHEMA")
+    )
+    cursor = conn.cursor()
+    cursor.execute("SELECT CURRENT_TIMESTAMP;")
+    return cursor.fetchone()
 
 API_HEADERS = {
     "Authorization": f"Bearer {SNOWFLAKE_PAT}",
