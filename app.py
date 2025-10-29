@@ -4,7 +4,7 @@ import uuid
 import httpx
 import asyncio
 from dotenv import load_dotenv
-from fastmcp import FastMCP
+
 from mistralai.client import MistralClient
 import os
 import snowflake.connector
@@ -62,14 +62,7 @@ async def ask_mistral(prompt: str) -> Dict:
     return {"response": response.choices[0].message.content}
 
 # ✅ Tool: Run Snowflake Cortex Agent
-@mcp.tool()
-async def run_cortex_agents(query: str) -> Dict:
-    """Run Snowflake Cortex agent and execute SQL"""
-    payload = {
-        "model": "claude-3-5-sonnet",
-        "messages": [{"role": "user", "content": query}],
-        "tools": [{"tool_spec": {"type": "cortex_analyst_text_to_sql", "name": "Analyst"}}],
-    }
+
     headers = {**API_HEADERS, "Accept": "text/event-stream"}
     request_id = str(uuid.uuid4())
 
