@@ -1,21 +1,16 @@
-from typing import Any, Dict, Tuple, List
+from typing import Any, Dict
 import httpx, os, json, uuid, asyncio
 from dotenv import load_dotenv
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from mistralai.client import MistralClient
 
-from fastmcp import FastMCP
-
-
-
+# Load environment variables
 load_dotenv()
-mcp.run(transport="http", host="0.0.0.0", port=8000)
+
 # Initialize MCP
 mcp = FastMCP()
 
-# Start MCP server
-mcp.run(transport="http")
-# Initialize Mistral
+# Initialize Mistral client
 mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
 
 # Snowflake constants
@@ -57,4 +52,5 @@ async def run_cortex_agents(query: str) -> dict:
     return {"text": text, "sql": sql, "results": results}
 
 if __name__ == "__main__":
-    mcp.run(transport="http", host="0.0.0.0", port=8000)
+    # Start MCP server
+    mcp.run(transport="http")
