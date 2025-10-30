@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 import os
 import snowflake.connector
+from mistralai import Mistral
+# or older style:
 from mistralai.client import MistralClient
 from dotenv import load_dotenv
 
