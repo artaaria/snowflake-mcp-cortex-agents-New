@@ -9,9 +9,9 @@ snowflake-connector-python
 mistral-client  # or relevant SDK for Mistral
 
 mcp
-streamlit==1.28.0
+
 snowflake-connector-python
 pandas
 requests
 python-dotenv
-mistralai==0.4.2
+mistralai>=1.0.0
