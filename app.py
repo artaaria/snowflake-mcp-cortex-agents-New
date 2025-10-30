@@ -3,6 +3,10 @@ import os
 import snowflake.connector
 from mistralai import Mistral
 # or older style:
+
+from mistralai.extra.mcp.stdio import MCPClientSTDIO
+from mistralai.extra.run.context import RunContext
+
 from mistralai.client import MistralClient
 from dotenv import load_dotenv
 
