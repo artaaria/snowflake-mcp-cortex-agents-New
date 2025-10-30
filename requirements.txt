@@ -9,3 +9,4 @@ mcp[cli]
 fastmcp
 pandas
 requests
+streamlit
