@@ -10,3 +10,4 @@ fastmcp
 pandas
 requests
 streamlit
+griffe
