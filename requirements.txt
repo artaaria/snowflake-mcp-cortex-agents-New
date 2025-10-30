@@ -1,21 +1,11 @@
+
 httpx
 python-dotenv
-mcp[cli]
-fastmcp
+fastapi
 uvicorn==0.38.0
 snowflake-connector-python==4.0.0
-mistralai>=1.0.0   # or python-mistralclient if you're on OpenStack
-# fastapi==0.115.5   # if you use FastAPI, pin it too
-fastapi
-uvicorn
-snowflake-connector-python
-mistral-client  # or relevant SDK for Mistral
-
-mcp
-
-snowflake-connector-python
+mistralai>=1.0.0
+mcp[cli]
+fastmcp
 pandas
 requests
-python-dotenv
-python-mistralclient
-mistralai>=1.0.0
