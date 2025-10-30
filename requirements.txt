@@ -2,7 +2,10 @@ httpx
 python-dotenv
 mcp[cli]
 fastmcp
-
+uvicorn==0.38.0
+snowflake-connector-python==4.0.0
+mistralai>=1.0.0   # or python-mistralclient if you're on OpenStack
+# fastapi==0.115.5   # if you use FastAPI, pin it too
 fastapi
 uvicorn
 snowflake-connector-python
