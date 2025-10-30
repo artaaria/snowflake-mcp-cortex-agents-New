@@ -1,13 +1,7 @@
 from fastapi import FastAPI
 import os
 import snowflake.connector
-from mistralai import Mistral
-# or older style:
-
-from mistralai.extra.mcp.stdio import MCPClientSTDIO
-from mistralai.extra.run.context import RunContext
-
-from mistralai.client import MistralClient
+from mistralai.client import ChatClient
 from dotenv import load_dotenv
 
 # ✅ Load environment variables
@@ -16,8 +10,8 @@ load_dotenv()
 # ✅ Initialise FastAPI app
 app = FastAPI()
 
-# ✅ Initialise Mistral client
-mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
+# ✅ Initialise Mistral ChatClient
+mistral_client = ChatClient(api_key=os.getenv("MISTRAL_API_KEY"))
 
 # ✅ Snowflake connection helper
 def get_snowflake_connection():
@@ -61,7 +55,7 @@ def run_query(sql: str):
 @app.post("/chat")
 def chat(prompt: str):
     try:
-        response = mistral_client.chat.complete(
+        response = mistral_client.chat(
             model="mistral-medium",
             messages=[{"role": "user", "content": prompt}]
         )
