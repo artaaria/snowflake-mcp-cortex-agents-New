@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import os
 import snowflake.connector
-from mistralai.client import ChatClient
+from mistralai import MistralClient
 from dotenv import load_dotenv
 
 # ✅ Load environment variables
@@ -10,8 +10,8 @@ load_dotenv()
 # ✅ Initialise FastAPI app
 app = FastAPI()
 
-# ✅ Initialise Mistral ChatClient
-mistral_client = ChatClient(api_key=os.getenv("MISTRAL_API_KEY"))
+# ✅ Initialise Mistral Client
+mistral_client = MistralClient(api_key=os.getenv("MISTRAL_API_KEY"))
 
 # ✅ Snowflake connection helper
 def get_snowflake_connection():
